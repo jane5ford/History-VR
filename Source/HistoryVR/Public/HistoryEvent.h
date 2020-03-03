@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "HistoryEvent.generated.h"
@@ -24,7 +23,7 @@ public:
 		TSet<AHistoryEvent*> Relations;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		UParticleSystemComponent* PS;
-
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -32,6 +31,8 @@ protected:
 		UStaticMeshComponent* NodeMeshComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		USceneComponent* NodeSceneComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+		UPaperSpriteComponent* Sprite;
 
 public:	
 	// Called every frame

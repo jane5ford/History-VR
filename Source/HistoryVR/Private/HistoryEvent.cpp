@@ -12,6 +12,8 @@
 #include "ParticleHelper.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
+
+
 // Sets default values
 AHistoryEvent::AHistoryEvent()
 {
@@ -32,6 +34,10 @@ AHistoryEvent::AHistoryEvent()
 
 	PS->SetTemplate(PSRay.Object);
 
+	static ConstructorHelpers::FObjectFinder<UTexture2D>Spr(TEXT("PaperSprite'/Game/Textures/node_Sprite.node_Sprite'"));
+	//Sprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
+	//Sprite->SetupAttachment(RootComponent);
+
 }
 
 // Called when the game starts or when spawned
@@ -45,7 +51,16 @@ void AHistoryEvent::Create(int32 id)
 {
 	float radius = 80.f;
 	Id = id;
-	FVector location = GetActorLocation() + FVector(FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius));
+	//FVector location = GetActorLocation() + FVector(FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius));
+	
+	float roll;
+	if (Id == 1) roll = 90.f;
+	if (Id > 1 && Id < 6) roll = 30.f;
+	if (Id > 5 && Id < 10) roll = -30.f;
+	if (Id == 10) roll = -90.f;
+	FRotator rotation = FRotator(roll, Id * 90.f, roll);
+	SetActorRotation(rotation);
+	FVector location = GetActorForwardVector() * 100.f;
 	SetActorLocation(location);
 }
 
@@ -54,7 +69,7 @@ void AHistoryEvent::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	float speed = 0.05f;
-	SetActorLocation(GetActorLocation() + 0.02f* GetActorForwardVector());
-	SetActorRotation(GetActorRotation() + FRotator(0.f,0.1f, 0.f));
+	//SetActorLocation(GetActorLocation() + 0.02f* GetActorForwardVector());
+	//SetActorRotation(GetActorRotation() + FRotator(0.f,0.1f, 0.f));
 }
 
