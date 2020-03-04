@@ -3,6 +3,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/TextRenderComponent.h"
 #include "HistoryEvent.generated.h"
 
 UCLASS()
@@ -16,15 +17,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (ExposeOnSpawn = "true"))
 		int32 Id;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Relations_Count;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString Description;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TSet<AHistoryEvent*> Relations;
+		FString Date;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		UParticleSystemComponent* PS;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		AActor* Player;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+		UTextRenderComponent* TextDescription;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+		UTextRenderComponent* TextDate;
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,11 +35,12 @@ protected:
 		UStaticMeshComponent* NodeMeshComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		USceneComponent* NodeSceneComponent;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
-		//UPaperSprite* Sprite;
+
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	void Create(int32 id);
+	void SetDescription(FString description);
+	void SetDate(FString date);
 };

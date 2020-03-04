@@ -16,7 +16,9 @@ public:
 	// Sets default values for this actor's properties
 	AGraph();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FString Input;
+		FString AdjacencyList;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FString NodesData;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TMap<int32, AHistoryEvent*> Nodes;
 	

@@ -23,21 +23,34 @@ AGraph::AGraph()
 void AGraph::BeginPlay()
 {
 	Super::BeginPlay();
-	FString directory = FPaths::ConvertRelativePathToFull(FPaths::GameContentDir()) + Input;
+	FString directory = FPaths::ConvertRelativePathToFull(FPaths::GameContentDir()) + AdjacencyList;
 	TArray<FString> result;
 	if (FFileHelper::LoadFileToStringArray(result, *directory)) {
 		//FString IntAsString = FString::FromInt();
-		UKismetSystemLibrary::PrintString(this, "Nodes and Edges: " + result[0], true, true, FLinearColor(0, 0, 0, 1), 100.f);
+		//UKismetSystemLibrary::PrintString(this, "Nodes and Edges: " + result[0], true, true, FLinearColor(0, 0, 0, 1), 100.f);
 		FString res;
 		FString res1, res2;
 		for (int32 i = 1; i < result.Num(); i++) {
 			res = result[i];
 			res.Split(" ", &res1, &res2);
-			UKismetSystemLibrary::PrintString(this, res1 + " " + res2, true, true, FLinearColor(0, 0, 0, 1), 100.f);
+			//UKismetSystemLibrary::PrintString(this, res1 + " " + res2, true, true, FLinearColor(0, 0, 0, 1), 100.f);
 			int32 nodeA_id = FCString::Atoi(*res1);
 			int32 nodeB_id = FCString::Atoi(*res2);
 			CreateRelation(nodeA_id, nodeB_id);
 		}
+	}
+	else UKismetSystemLibrary::PrintString(this, "File Not Found", true, true, FLinearColor(0, 0, 0, 1), 100.f);
+
+	FString directory2 = FPaths::ConvertRelativePathToFull(FPaths::GameContentDir()) + NodesData;
+	TArray<FString> result2;
+	if (FFileHelper::LoadFileToStringArray(result2, *directory2)) {
+		int32 k = 0;
+		if (Nodes.Num() * 2 ==  result2.Num())
+			for (int32 i = 1; i <= Nodes.Num(); i++) {
+				Nodes[i]->SetDescription(result2[k]);
+				Nodes[i]->SetDate(result2[k+1]);
+				k=k+2;
+			}
 	}
 	else UKismetSystemLibrary::PrintString(this, "File Not Found", true, true, FLinearColor(0, 0, 0, 1), 100.f);
 }

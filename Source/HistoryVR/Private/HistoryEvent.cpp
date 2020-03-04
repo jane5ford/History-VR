@@ -15,6 +15,7 @@
 #include "PaperSpriteComponent.h"
 #include "PaperSprite.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Components/TextRenderComponent.h"
 
 // Sets default values
 AHistoryEvent::AHistoryEvent()
@@ -34,17 +35,27 @@ AHistoryEvent::AHistoryEvent()
 	PS->SetupAttachment(RootComponent);
 	PS->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem>PSRay(TEXT("ParticleSystem'/Game/Particles/P_Sparcles.P_Sparcles'"));
-
 	PS->SetTemplate(PSRay.Object);
 
 	static ConstructorHelpers::FObjectFinder<UPaperSprite>Sprite(TEXT("PaperSprite'/Game/Textures/node_Sprite.node_Sprite'"));
-	//Sprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
-	//Sprite->SetupAttachment(RootComponent);
 	UPaperSpriteComponent* SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
 	SpriteComponent->SetupAttachment(RootComponent);
 	SpriteComponent->SetSprite(Sprite.Object);
 	SpriteComponent->SetWorldScale3D(FVector(0.2f, 0.2f, 0.2f));
 	SpriteComponent->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
+	//SpriteComponent->SetCollisionEnabled(false);
+
+	TextDescription = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Description"));
+	TextDescription->SetupAttachment(RootComponent);
+	TextDescription->SetHorizontalAlignment(EHTA_Center);
+	TextDescription->SetRelativeLocation(FVector(5.0f, 0.0f, -20.0f));
+	TextDescription->SetWorldSize(12.f);
+
+	TextDate = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Date"));
+	TextDate->SetupAttachment(RootComponent);
+	TextDate->SetHorizontalAlignment(EHTA_Center);
+	TextDate->SetRelativeLocation(FVector(5.0f, 0.0f, -30.0f));
+	TextDate->SetWorldSize(12.f);
 }
 
 // Called when the game starts or when spawned
@@ -59,7 +70,6 @@ void AHistoryEvent::Create(int32 id)
 	float radius = 80.f;
 	Id = id;
 	//FVector location = GetActorLocation() + FVector(FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius));
-	
 	float roll;
 	if (Id == 1) roll = 90.f;
 	if (Id > 1 && Id < 6) roll = 30.f;
@@ -68,8 +78,17 @@ void AHistoryEvent::Create(int32 id)
 	FRotator rotation = FRotator(roll, Id * 90.f, roll);
 	SetActorRotation(rotation);
 	FVector location = GetActorForwardVector() * 100.f;
-	SetActorLocation(location);
-	//SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), player->GetActorLocation()));
+	SetActorLocation(location);	
+}
+
+void AHistoryEvent::SetDescription(FString description) {
+	Description = description;
+	TextDescription->SetText(Description);
+}
+
+void AHistoryEvent::SetDate(FString date) {
+	Date = date;
+	TextDate->SetText(Date);
 }
 
 // Called every frame
@@ -81,5 +100,7 @@ void AHistoryEvent::Tick(float DeltaTime)
 	//SetActorRotation(GetActorRotation() + FRotator(0.f,0.1f, 0.f));
 	FVector playerLoc = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), playerLoc));
+	
+
 }
 
