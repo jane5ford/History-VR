@@ -37,25 +37,27 @@ AHistoryEvent::AHistoryEvent()
 	static ConstructorHelpers::FObjectFinder<UParticleSystem>PSRay(TEXT("ParticleSystem'/Game/Particles/P_Sparcles.P_Sparcles'"));
 	PS->SetTemplate(PSRay.Object);
 
-	static ConstructorHelpers::FObjectFinder<UPaperSprite>Sprite(TEXT("PaperSprite'/Game/Textures/node_Sprite.node_Sprite'"));
-	UPaperSpriteComponent* SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
+	static ConstructorHelpers::FObjectFinder<UPaperSprite>Sprite(TEXT("PaperSprite'/Game/Sprites/govermnt_Sprite.govermnt_Sprite'"));
+	SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
 	SpriteComponent->SetupAttachment(RootComponent);
 	SpriteComponent->SetSprite(Sprite.Object);
-	SpriteComponent->SetWorldScale3D(FVector(0.2f, 0.2f, 0.2f));
+	SpriteComponent->SetRelativeLocation(FVector(0.f, 0.0f, 5.0f));
+	SpriteComponent->SetWorldScale3D(FVector(0.05f, 0.05f, 0.05f));
 	SpriteComponent->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
 	//SpriteComponent->SetCollisionEnabled(false);
 
 	TextDescription = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Description"));
 	TextDescription->SetupAttachment(RootComponent);
 	TextDescription->SetHorizontalAlignment(EHTA_Center);
-	TextDescription->SetRelativeLocation(FVector(5.0f, 0.0f, -20.0f));
-	TextDescription->SetWorldSize(12.f);
+	TextDescription->SetRelativeLocation(FVector(5.0f, 0.0f, -15.0f));
+	TextDescription->SetWorldSize(8.f);
+	TextDescription->SetTextRenderColor(FColor(255, 174, 0, 255));
 
 	TextDate = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Date"));
 	TextDate->SetupAttachment(RootComponent);
 	TextDate->SetHorizontalAlignment(EHTA_Center);
-	TextDate->SetRelativeLocation(FVector(5.0f, 0.0f, -30.0f));
-	TextDate->SetWorldSize(12.f);
+	TextDate->SetRelativeLocation(FVector(5.0f, 0.0f, -20.0f));
+	TextDate->SetWorldSize(6.f);
 }
 
 // Called when the game starts or when spawned
@@ -90,6 +92,19 @@ void AHistoryEvent::SetDate(FString date) {
 	Date = date;
 	TextDate->SetText(Date);
 }
+
+void AHistoryEvent::SetType(FString type)
+{
+	Type = type;
+	/*if (type == "people") static ConstructorHelpers::FObjectFinder<UPaperSprite>Sprite(TEXT("PaperSprite'/Game/Sprites/people_Sprite.people_Sprite'"));
+	if (type == "govermnt") static ConstructorHelpers::FObjectFinder<UPaperSprite>Sprite(TEXT("PaperSprite'/Game/Sprites/govermnt_Sprite.govermnt_Sprite'"));
+	if (type == "place") static ConstructorHelpers::FObjectFinder<UPaperSprite>Sprite(TEXT("PaperSprite'/Game/Sprites/place_Sprite.place_Sprite'"));
+	if (type == "event") static ConstructorHelpers::FObjectFinder<UPaperSprite>Sprite(TEXT("PaperSprite'/Game/Sprites/event_Sprite.event_Sprite'"));
+	*/	
+	//SpriteComponent->SetSprite(Sprite.Object);
+}
+
+
 
 // Called every frame
 void AHistoryEvent::Tick(float DeltaTime)
