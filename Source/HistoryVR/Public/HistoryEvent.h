@@ -23,7 +23,9 @@ public:
 		TSet<AHistoryEvent*> Relations;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		UParticleSystemComponent* PS;
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		AActor* Player;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -31,8 +33,8 @@ protected:
 		UStaticMeshComponent* NodeMeshComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		USceneComponent* NodeSceneComponent;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
-		UPaperSpriteComponent* Sprite;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+		//UPaperSprite* Sprite;
 
 public:	
 	// Called every frame

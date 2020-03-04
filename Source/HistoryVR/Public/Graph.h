@@ -20,6 +20,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TMap<int32, AHistoryEvent*> Nodes;
 	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

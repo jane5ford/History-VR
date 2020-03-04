@@ -12,7 +12,9 @@
 #include "ParticleHelper.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
-
+#include "PaperSpriteComponent.h"
+#include "PaperSprite.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AHistoryEvent::AHistoryEvent()
@@ -23,6 +25,7 @@ AHistoryEvent::AHistoryEvent()
 	//NodeMeshComponent->SetRelativeLocation(FVector(0.0f, 0.0f, -10.0f));
 	NodeSceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("NodeScene"));
 	NodeSceneComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+
 	RootComponent = NodeSceneComponent;
 	//NodeMeshComponent->SetupAttachment(RootComponent);
 	//static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Geometry/Meshes/Shape_Sphere.Shape_Sphere'"));
@@ -34,10 +37,14 @@ AHistoryEvent::AHistoryEvent()
 
 	PS->SetTemplate(PSRay.Object);
 
-	static ConstructorHelpers::FObjectFinder<UTexture2D>Spr(TEXT("PaperSprite'/Game/Textures/node_Sprite.node_Sprite'"));
+	static ConstructorHelpers::FObjectFinder<UPaperSprite>Sprite(TEXT("PaperSprite'/Game/Textures/node_Sprite.node_Sprite'"));
 	//Sprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
 	//Sprite->SetupAttachment(RootComponent);
-
+	UPaperSpriteComponent* SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
+	SpriteComponent->SetupAttachment(RootComponent);
+	SpriteComponent->SetSprite(Sprite.Object);
+	SpriteComponent->SetWorldScale3D(FVector(0.2f, 0.2f, 0.2f));
+	SpriteComponent->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
 }
 
 // Called when the game starts or when spawned
@@ -62,6 +69,7 @@ void AHistoryEvent::Create(int32 id)
 	SetActorRotation(rotation);
 	FVector location = GetActorForwardVector() * 100.f;
 	SetActorLocation(location);
+	//SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), player->GetActorLocation()));
 }
 
 // Called every frame
@@ -71,5 +79,7 @@ void AHistoryEvent::Tick(float DeltaTime)
 	float speed = 0.05f;
 	//SetActorLocation(GetActorLocation() + 0.02f* GetActorForwardVector());
 	//SetActorRotation(GetActorRotation() + FRotator(0.f,0.1f, 0.f));
+	FVector playerLoc = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), playerLoc));
 }
 

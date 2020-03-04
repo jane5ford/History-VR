@@ -33,6 +33,7 @@ protected:
 		USceneComponent* NodeSceneComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		UParticleSystemComponent* PS;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
