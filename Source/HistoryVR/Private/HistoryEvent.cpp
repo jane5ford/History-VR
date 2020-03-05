@@ -3,6 +3,7 @@
 
 #include "HistoryEvent.h"
 #include "HistoryEdge.h"
+#include "Graph.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
 #include "UObject/ConstructorHelpers.h"
@@ -22,29 +23,38 @@ AHistoryEvent::AHistoryEvent()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	//NodeMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("NodeMesh"));
-	//NodeMeshComponent->SetRelativeLocation(FVector(0.0f, 0.0f, -10.0f));
 	NodeSceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("NodeScene"));
 	NodeSceneComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
-
 	RootComponent = NodeSceneComponent;
-	//NodeMeshComponent->SetupAttachment(RootComponent);
-	//static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Geometry/Meshes/Shape_Sphere.Shape_Sphere'"));
-	//NodeMeshComponent->SetStaticMesh(MeshAsset.Object);
-	PS = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleSystem'/Game/Particles/P_Sparcles.P_Sparcles'"));
-	PS->SetupAttachment(RootComponent);
-	PS->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
-	static ConstructorHelpers::FObjectFinder<UParticleSystem>PSRay(TEXT("ParticleSystem'/Game/Particles/P_Sparcles.P_Sparcles'"));
-	PS->SetTemplate(PSRay.Object);
+	
+	P_OrangeEllipse = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleSystem"));
+	P_OrangeEllipse->SetupAttachment(RootComponent);
+	P_OrangeEllipse->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+	static ConstructorHelpers::FObjectFinder<UParticleSystem>orange(TEXT("ParticleSystem'/Game/Particles/P_OrangeEllipse.P_OrangeEllipse'"));
+	P_OrangeEllipse->SetTemplate(orange.Object);
+	
+	P_Sparkles = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleSystem2"));
+	P_Sparkles->SetupAttachment(RootComponent);
+	P_Sparkles->SetRelativeScale3D(FVector(0.5f, 0.5f, 0.5f));
+	static ConstructorHelpers::FObjectFinder<UParticleSystem>sparkles(TEXT("ParticleSystem'/Game/Particles/P_Sparkles.P_Sparkles'"));
+	P_Sparkles->SetTemplate(sparkles.Object);
 
-	static ConstructorHelpers::FObjectFinder<UPaperSprite>Sprite(TEXT("PaperSprite'/Game/Sprites/govermnt_Sprite.govermnt_Sprite'"));
+	ConstructorHelpers::FObjectFinder<UPaperSprite> h_govermntSprite(TEXT("PaperSprite'/Game/Sprites/govermnt_Sprite.govermnt_Sprite'"));
+	ConstructorHelpers::FObjectFinder<UPaperSprite> h_peopleSprite(TEXT("PaperSprite'/Game/Sprites/people_Sprite.people_Sprite'"));
+	ConstructorHelpers::FObjectFinder<UPaperSprite> h_placeSprite(TEXT("PaperSprite'/Game/Sprites/place_Sprite.place_Sprite'"));
+	ConstructorHelpers::FObjectFinder<UPaperSprite> h_eventSprite(TEXT("PaperSprite'/Game/Sprites/event_Sprite.event_Sprite'"));
+	govermntSprite = h_govermntSprite.Object;
+	peopleSprite = h_peopleSprite.Object;
+	placeSprite = h_placeSprite.Object;
+	eventSprite = h_eventSprite.Object;
+	
 	SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
 	SpriteComponent->SetupAttachment(RootComponent);
-	SpriteComponent->SetSprite(Sprite.Object);
 	SpriteComponent->SetRelativeLocation(FVector(0.f, 0.0f, 5.0f));
 	SpriteComponent->SetWorldScale3D(FVector(0.05f, 0.05f, 0.05f));
 	SpriteComponent->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
-	//SpriteComponent->SetCollisionEnabled(false);
+	SpriteComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
 
 	TextDescription = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Description"));
 	TextDescription->SetupAttachment(RootComponent);
@@ -52,7 +62,7 @@ AHistoryEvent::AHistoryEvent()
 	TextDescription->SetRelativeLocation(FVector(5.0f, 0.0f, -15.0f));
 	TextDescription->SetWorldSize(8.f);
 	TextDescription->SetTextRenderColor(FColor(255, 174, 0, 255));
-
+	
 	TextDate = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Date"));
 	TextDate->SetupAttachment(RootComponent);
 	TextDate->SetHorizontalAlignment(EHTA_Center);
@@ -64,12 +74,12 @@ AHistoryEvent::AHistoryEvent()
 void AHistoryEvent::BeginPlay()
 {
 	Super::BeginPlay();
-	PS->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));//FMath::VRand()
+	P_OrangeEllipse->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));//FMath::VRand()
 }
 
 void AHistoryEvent::Create(int32 id) 
 {
-	float radius = 80.f;
+	float radius = 180.f;
 	Id = id;
 	//FVector location = GetActorLocation() + FVector(FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius));
 	float roll;
@@ -77,9 +87,9 @@ void AHistoryEvent::Create(int32 id)
 	if (Id > 1 && Id < 6) roll = 30.f;
 	if (Id > 5 && Id < 10) roll = -30.f;
 	if (Id == 10) roll = -90.f;
-	FRotator rotation = FRotator(roll, Id * 90.f, roll);
+	FRotator rotation = FRotator(roll, Id * 90.f + 20.f, roll);
 	SetActorRotation(rotation);
-	FVector location = GetActorForwardVector() * 100.f;
+	FVector location = GetActorForwardVector() * radius;
 	SetActorLocation(location);	
 }
 
@@ -96,15 +106,11 @@ void AHistoryEvent::SetDate(FString date) {
 void AHistoryEvent::SetType(FString type)
 {
 	Type = type;
-	/*if (type == "people") static ConstructorHelpers::FObjectFinder<UPaperSprite>Sprite(TEXT("PaperSprite'/Game/Sprites/people_Sprite.people_Sprite'"));
-	if (type == "govermnt") static ConstructorHelpers::FObjectFinder<UPaperSprite>Sprite(TEXT("PaperSprite'/Game/Sprites/govermnt_Sprite.govermnt_Sprite'"));
-	if (type == "place") static ConstructorHelpers::FObjectFinder<UPaperSprite>Sprite(TEXT("PaperSprite'/Game/Sprites/place_Sprite.place_Sprite'"));
-	if (type == "event") static ConstructorHelpers::FObjectFinder<UPaperSprite>Sprite(TEXT("PaperSprite'/Game/Sprites/event_Sprite.event_Sprite'"));
-	*/	
-	//SpriteComponent->SetSprite(Sprite.Object);
+	if (Type == "people") SpriteComponent->SetSprite(peopleSprite);
+	if (Type == "govermnt") SpriteComponent->SetSprite(govermntSprite);
+	if (Type == "event") SpriteComponent->SetSprite(eventSprite);
+	if (Type == "place") SpriteComponent->SetSprite(placeSprite);
 }
-
-
 
 // Called every frame
 void AHistoryEvent::Tick(float DeltaTime)
@@ -115,7 +121,9 @@ void AHistoryEvent::Tick(float DeltaTime)
 	//SetActorRotation(GetActorRotation() + FRotator(0.f,0.1f, 0.f));
 	FVector playerLoc = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), playerLoc));
-	
-
+	//if (SpriteComponent->OnClicked()) SetActorScale3D(FVector(2.f, 2.f, 2.f));
+	if (IsCurrent) { SetActorScale3D(FVector(2.f, 2.f, 2.f)); P_Sparkles->SetVisibility(true);  }
+	else { SetActorScale3D(FVector(1.f, 1.f, 1.f)); P_Sparkles->SetVisibility(false);
+	}
 }
 

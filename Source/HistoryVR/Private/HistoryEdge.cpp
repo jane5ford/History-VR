@@ -16,19 +16,13 @@ AHistoryEdge::AHistoryEdge()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	//NodeMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("NodeMesh"));
 	NodeSceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("NodeScene"));
 	NodeSceneComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 	RootComponent = NodeSceneComponent;
-	//NodeMeshComponent->SetupAttachment(RootComponent);
-	//static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Geometry/Meshes/Shape_Cylinder.Shape_Cylinder'"));
-	//NodeMeshComponent->SetStaticMesh(MeshAsset.Object);
-	//NodeMeshComponent->SetRelativeRotation(FRotator(-90.f, 0.f, 0.f));
 	PS = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleSystem'/Game/Particles/P_Beam_Laser_Ice.P_Beam_Laser_Ice'"));
 	PS->SetupAttachment(RootComponent);
-	PS->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+	PS->SetRelativeLocation(FVector(20.f, 0.f, 0.f));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem>PSRay(TEXT("ParticleSystem'/Game/Particles/P_Beam_Laser_Ice.P_Beam_Laser_Ice'"));
-	
 	PS->SetTemplate(PSRay.Object);
 }
 
@@ -42,12 +36,10 @@ void AHistoryEdge::BeginPlay()
 void AHistoryEdge::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//Rotate and Scale Edge depends of NodeA
-	float edge_distance = FVector::Dist(NodeA->GetActorLocation(), NodeB->GetActorLocation());
+	float edge_distance = FVector::Dist(NodeA->GetActorLocation(), NodeB->GetActorLocation()) - 40.f;
 	PS->SetFloatParameter("Lenght", edge_distance);
-	//NodeMeshComponent->SetWorldScale3D(FVector(0.02f, 0.02f, edge_distance * 0.01f));
 	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(NodeB->GetActorLocation(), NodeA->GetActorLocation());
-	this->SetActorLocationAndRotation(NodeB->GetActorLocation(), rotation);
+	this->SetActorLocationAndRotation(NodeB->GetActorLocation()+FVector(0.f,0.f,0.f), rotation);
 }
 
 void AHistoryEdge::Create(AHistoryEvent* nodeA, AHistoryEvent* nodeB) 

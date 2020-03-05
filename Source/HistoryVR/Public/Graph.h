@@ -21,7 +21,8 @@ public:
 		FString NodesData;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TMap<int32, AHistoryEvent*> Nodes;
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int32 currentId = 3;
 
 protected:
 	// Called when the game starts or when spawned

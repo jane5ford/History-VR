@@ -27,8 +27,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
-	//	UStaticMeshComponent* NodeMeshComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		USceneComponent* NodeSceneComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")

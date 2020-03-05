@@ -4,7 +4,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/TextRenderComponent.h"
+#include "UObject/ConstructorHelpers.h"
 #include "PaperSpriteComponent.h"
+#include "PaperSprite.h"
 #include "HistoryEvent.generated.h"
 
 UCLASS()
@@ -23,16 +25,19 @@ public:
 		FString Date;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString Type;
-
+	bool IsCurrent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
-		UParticleSystemComponent* PS;
+		UParticleSystemComponent* P_OrangeEllipse;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+		UParticleSystemComponent* P_Sparkles;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		UTextRenderComponent* TextDescription;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		UTextRenderComponent* TextDate;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		UPaperSpriteComponent* SpriteComponent;
+	
 
 protected:
 	// Called when the game starts or when spawned
@@ -42,6 +47,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		USceneComponent* NodeSceneComponent;
 
+protected:
+	UPaperSprite* govermntSprite;
+	UPaperSprite* peopleSprite;
+	UPaperSprite* placeSprite;
+	UPaperSprite* eventSprite;
 
 public:	
 	// Called every frame
@@ -50,4 +60,5 @@ public:
 	void SetDescription(FString description);
 	void SetDate(FString date);
 	void SetType(FString type);
+	
 };
