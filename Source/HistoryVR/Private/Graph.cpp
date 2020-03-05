@@ -30,36 +30,37 @@ void AGraph::BeginPlay()
 			FString res;
 			FString res1, res2;
 			AHistoryEvent* node;
-			for (int32 i = 1; i <= 10; i++) {
+			int32 total = nodesArray.Num() / 2;
+			for (int32 i = 1; i <= total; i++) {
 				node = GetWorld()->SpawnActor<AHistoryEvent>(FVector(-60.f, 0.f, 120.f), FRotator(0.f, 0.f, 0.f));
 				nodesArray[k].Split(":", &res1, &res2);
 				node->SetDescription(res2);
 				node->SetDate(nodesArray[k + 1]);
 				node->SetType(res1);				
-				node->Create(i);
+				node->Create(i, total, Random);
 				Nodes.Add(i, node);
 				k = k + 2;
 			}
 	}
 	else UKismetSystemLibrary::PrintString(this, "File Not Found", true, true, FLinearColor(0, 0, 0, 1), 100.f);
 
-	FString directory = FPaths::ConvertRelativePathToFull(FPaths::GameContentDir()) + AdjacencyList;
-	TArray<FString> adjacencyArray;
-	if (FFileHelper::LoadFileToStringArray(adjacencyArray, *directory)) {
-		//FString IntAsString = FString::FromInt();
-		//UKismetSystemLibrary::PrintString(this, "Nodes and Edges: " + result[0], true, true, FLinearColor(0, 0, 0, 1), 100.f);
-		FString res;
-		FString res1, res2;
-		for (int32 i = 1; i < adjacencyArray.Num(); i++) {
-			res = adjacencyArray[i];
-			res.Split(" ", &res1, &res2);
-			//UKismetSystemLibrary::PrintString(this, res1 + " " + res2, true, true, FLinearColor(0, 0, 0, 1), 100.f);
-			int32 nodeA_id = FCString::Atoi(*res1);
-			int32 nodeB_id = FCString::Atoi(*res2);
-			CreateRelation(nodeA_id, nodeB_id);
-		}
-	}
-	else UKismetSystemLibrary::PrintString(this, "File Not Found", true, true, FLinearColor(0, 0, 0, 1), 100.f);
+	//FString directory = FPaths::ConvertRelativePathToFull(FPaths::GameContentDir()) + AdjacencyList;
+	//TArray<FString> adjacencyArray;
+	//if (FFileHelper::LoadFileToStringArray(adjacencyArray, *directory)) {
+	//	//FString IntAsString = FString::FromInt();
+	//	//UKismetSystemLibrary::PrintString(this, "Nodes and Edges: " + result[0], true, true, FLinearColor(0, 0, 0, 1), 100.f);
+	//	FString res;
+	//	FString res1, res2;
+	//	for (int32 i = 1; i < adjacencyArray.Num(); i++) {
+	//		res = adjacencyArray[i];
+	//		res.Split(" ", &res1, &res2);
+	//		//UKismetSystemLibrary::PrintString(this, res1 + " " + res2, true, true, FLinearColor(0, 0, 0, 1), 100.f);
+	//		int32 nodeA_id = FCString::Atoi(*res1);
+	//		int32 nodeB_id = FCString::Atoi(*res2);
+	//		CreateRelation(nodeA_id, nodeB_id);
+	//	}
+	//}
+	//else UKismetSystemLibrary::PrintString(this, "File Not Found", true, true, FLinearColor(0, 0, 0, 1), 100.f);
 }
 
 void AGraph::CreateRelation(int32 nodeA_id, int32 nodeB_id) {

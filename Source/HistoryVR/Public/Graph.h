@@ -23,6 +23,8 @@ public:
 		TMap<int32, AHistoryEvent*> Nodes;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 currentId = 3;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool Random = true;
 
 protected:
 	// Called when the game starts or when spawned

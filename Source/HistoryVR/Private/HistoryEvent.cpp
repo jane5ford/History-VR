@@ -77,19 +77,36 @@ void AHistoryEvent::BeginPlay()
 	P_OrangeEllipse->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));//FMath::VRand()
 }
 
-void AHistoryEvent::Create(int32 id) 
+void AHistoryEvent::Create(int32 id, int32 total, bool random)
 {
-	float radius = 180.f;
+	//bool random = random;
 	Id = id;
-	//FVector location = GetActorLocation() + FVector(FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius));
-	float roll;
-	if (Id == 1) roll = 90.f;
+	float radius = 150.f;
+	FVector location = GetActorLocation();
+	if (total > 60) radius = total * 3.5f;
+	if (random) {
+		location += FVector(FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius));
+	}
+	else {
+		radius += 200.f;
+		int32 countInRow = pow(total, 1.0 / 3);
+		int32 step = radius / countInRow;
+		int32 x, y, z;
+		x = (id-1) % countInRow;
+		y = (id - 1) / pow(countInRow, 2); 
+		z = (id - 1 - y * pow(countInRow, 2)) / countInRow;
+		location += FVector( x * step, y * step, z * step);
+		//UKismetSystemLibrary::PrintString(this, FString::FromInt(id) + " " + FString::FromInt(x) + " " + FString::FromInt(y)+ " " + FString::FromInt(z), true, true, FLinearColor(5, 5, 5, 1), 100.f);
+	}
+
+	//float roll;
+	/*if (Id == 1) roll = 90.f;
 	if (Id > 1 && Id < 6) roll = 30.f;
 	if (Id > 5 && Id < 10) roll = -30.f;
 	if (Id == 10) roll = -90.f;
 	FRotator rotation = FRotator(roll, Id * 90.f + 20.f, roll);
-	SetActorRotation(rotation);
-	FVector location = GetActorForwardVector() * radius;
+	SetActorRotation(rotation);*/
+	//FVector location = GetActorForwardVector() * radius;
 	SetActorLocation(location);	
 }
 

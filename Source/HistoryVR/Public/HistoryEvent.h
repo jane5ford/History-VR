@@ -56,7 +56,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void Create(int32 id);
+	void Create(int32 id, int32 total, bool random);
 	void SetDescription(FString description);
 	void SetDate(FString date);
 	void SetType(FString type);
