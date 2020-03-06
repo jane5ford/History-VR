@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Edge.h"
+#include "HistoryEdge.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
 #include "UObject/ConstructorHelpers.h"
@@ -12,7 +12,7 @@
 #include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
-AEdge::AEdge()
+AHistoryEdge::AHistoryEdge()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -27,13 +27,13 @@ AEdge::AEdge()
 }
 
 // Called when the game starts or when spawned
-void AEdge::BeginPlay()
+void AHistoryEdge::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
 // Called every frame
-void AEdge::Tick(float DeltaTime)
+void AHistoryEdge::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	float edge_distance = FVector::Dist(NodeA->GetActorLocation(), NodeB->GetActorLocation()) - 40.f;
@@ -42,7 +42,7 @@ void AEdge::Tick(float DeltaTime)
 	this->SetActorLocationAndRotation(NodeB->GetActorLocation()+FVector(0.f,0.f,0.f), rotation);
 }
 
-void AEdge::Create(AHistoryEvent* nodeA, AHistoryEvent* nodeB) 
+void AHistoryEdge::Create(AHistoryEvent* nodeA, AHistoryEvent* nodeB) 
 {
 	NodeA = nodeA; NodeB = nodeB;
 }
