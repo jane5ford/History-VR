@@ -42,7 +42,7 @@ void AHistoryEdge::Tick(float DeltaTime)
 	this->SetActorLocationAndRotation(NodeB->GetActorLocation()+FVector(0.f,0.f,0.f), rotation);
 }
 
-void AHistoryEdge::Create(AHistoryEvent* nodeA, AHistoryEvent* nodeB) 
+void AHistoryEdge::Create(AGraphNode* nodeA, AGraphNode* nodeB) 
 {
 	NodeA = nodeA; NodeB = nodeB;
 }

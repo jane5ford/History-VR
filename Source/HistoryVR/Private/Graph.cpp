@@ -2,7 +2,7 @@
 
 
 #include "Graph.h"
-#include "HistoryEvent.h"
+#include "GraphNode.h"
 #include "HistoryEdge.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
@@ -29,10 +29,10 @@ void AGraph::BeginPlay()
 		int32 k = 0;
 			FString res;
 			FString res1, res2;
-			AHistoryEvent* node;
+			AGraphNode* node;
 			int32 total = nodesArray.Num() / 2;
 			for (int32 i = 1; i <= total; i++) {
-				node = GetWorld()->SpawnActor<AHistoryEvent>(FVector(-60.f, 0.f, 120.f), FRotator(0.f, 0.f, 0.f));
+				node = GetWorld()->SpawnActor<AGraphNode>(FVector(-60.f, 0.f, 120.f), FRotator(0.f, 0.f, 0.f));
 				nodesArray[k].Split(":", &res1, &res2);
 				node->SetDescription(res2);
 				node->SetDate(nodesArray[k + 1]);
@@ -65,8 +65,8 @@ void AGraph::BeginPlay()
 
 void AGraph::CreateRelation(int32 nodeA_id, int32 nodeB_id) {
 
-	AHistoryEvent* nodeA;
-	AHistoryEvent* nodeB;
+	AGraphNode* nodeA;
+	AGraphNode* nodeB;
 	nodeA = Nodes[nodeA_id];
 	nodeB = Nodes[nodeB_id];
 	AHistoryEdge* edge = GetWorld()->SpawnActor<AHistoryEdge>();

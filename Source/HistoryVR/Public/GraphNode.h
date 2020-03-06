@@ -7,16 +7,16 @@
 #include "UObject/ConstructorHelpers.h"
 #include "PaperSpriteComponent.h"
 #include "PaperSprite.h"
-#include "HistoryEvent.generated.h"
+#include "GraphNode.generated.h"
 
 UCLASS()
-class HISTORYVR_API AHistoryEvent : public AActor
+class HISTORYVR_API AGraphNode : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AHistoryEvent();
+	AGraphNode();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (ExposeOnSpawn = "true"))
 		int32 Id;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -27,6 +27,8 @@ public:
 		FString Type;
 	bool IsCurrent;
 
+protected:
+	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		UParticleSystemComponent* P_OrangeEllipse;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
@@ -37,13 +39,7 @@ public:
 		UTextRenderComponent* TextDate;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		UPaperSpriteComponent* SpriteComponent;
-	
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
-		UStaticMeshComponent* NodeMeshComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		USceneComponent* NodeSceneComponent;
 
@@ -62,3 +58,4 @@ public:
 	void SetType(FString type);
 	
 };
+

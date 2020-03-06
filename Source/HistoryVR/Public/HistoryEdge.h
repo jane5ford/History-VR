@@ -4,9 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include <HistoryVR\Public\HistoryEvent.h>
+#include "GraphNode.h"
 #include "HistoryEdge.generated.h"
-
 
 
 UCLASS()
@@ -20,9 +19,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 Edge_Len;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		AHistoryEvent* NodeA;
+		AGraphNode* NodeA;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		AHistoryEvent* NodeB;
+		AGraphNode* NodeB;
 
 protected:
 	// Called when the game starts or when spawned
@@ -35,5 +34,5 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void Create(AHistoryEvent* nodeA, AHistoryEvent* nodeB);
+	void Create(AGraphNode* nodeA, AGraphNode* nodeB);
 };

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include <HistoryVR\Public\HistoryEvent.h>
+#include <HistoryVR\Public\GraphNode.h>
 #include "GameFramework/Actor.h"
 #include "Graph.generated.h"
 
@@ -20,7 +20,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString NodesData;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TMap<int32, AHistoryEvent*> Nodes;
+		TMap<int32, AGraphNode*> Nodes;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 currentId = 3;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

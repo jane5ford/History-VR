@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "HistoryEvent.h"
+#include "GraphNode.h"
 #include "HistoryEdge.h"
 #include "Graph.h"
 #include "Components/StaticMeshComponent.h"
@@ -19,7 +19,7 @@
 #include "Components/TextRenderComponent.h"
 
 // Sets default values
-AHistoryEvent::AHistoryEvent()
+AGraphNode::AGraphNode()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -71,13 +71,13 @@ AHistoryEvent::AHistoryEvent()
 }
 
 // Called when the game starts or when spawned
-void AHistoryEvent::BeginPlay()
+void AGraphNode::BeginPlay()
 {
 	Super::BeginPlay();
 	P_OrangeEllipse->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));//FMath::VRand()
 }
 
-void AHistoryEvent::Create(int32 id, int32 total, bool random)
+void AGraphNode::Create(int32 id, int32 total, bool random)
 {
 	//bool random = random;
 	Id = id;
@@ -110,17 +110,17 @@ void AHistoryEvent::Create(int32 id, int32 total, bool random)
 	SetActorLocation(location);	
 }
 
-void AHistoryEvent::SetDescription(FString description) {
+void AGraphNode::SetDescription(FString description) {
 	Description = description;
 	TextDescription->SetText(Description);
 }
 
-void AHistoryEvent::SetDate(FString date) {
+void AGraphNode::SetDate(FString date) {
 	Date = date;
 	TextDate->SetText(Date);
 }
 
-void AHistoryEvent::SetType(FString type)
+void AGraphNode::SetType(FString type)
 {
 	Type = type;
 	if (Type == "people") SpriteComponent->SetSprite(peopleSprite);
@@ -130,7 +130,7 @@ void AHistoryEvent::SetType(FString type)
 }
 
 // Called every frame
-void AHistoryEvent::Tick(float DeltaTime)
+void AGraphNode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	float speed = 0.05f;
