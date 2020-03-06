@@ -5,18 +5,18 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include <HistoryVR\Public\HistoryEvent.h>
-#include "HistoryEdge.generated.h"
+#include "Edge.generated.h"
 
 
 
 UCLASS()
-class HISTORYVR_API AHistoryEdge : public AActor
+class HISTORYVR_API AEdge : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AHistoryEdge();
+	AEdge();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 Edge_Len;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

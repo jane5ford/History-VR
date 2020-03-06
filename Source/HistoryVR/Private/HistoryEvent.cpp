@@ -2,7 +2,7 @@
 
 
 #include "HistoryEvent.h"
-#include "HistoryEdge.h"
+#include "Edge.h"
 #include "Graph.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
