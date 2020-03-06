@@ -3,7 +3,7 @@
 
 #include "Graph.h"
 #include "HistoryEvent.h"
-#include "Edge.h"
+#include "HistoryEdge.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
 #include "Misc/FileHelper.h"
@@ -69,7 +69,7 @@ void AGraph::CreateRelation(int32 nodeA_id, int32 nodeB_id) {
 	AHistoryEvent* nodeB;
 	nodeA = Nodes[nodeA_id];
 	nodeB = Nodes[nodeB_id];
-	AEdge* edge = GetWorld()->SpawnActor<AEdge>();
+	AHistoryEdge* edge = GetWorld()->SpawnActor<AHistoryEdge>();
 	edge->Create(nodeA, nodeB);
 }
 
