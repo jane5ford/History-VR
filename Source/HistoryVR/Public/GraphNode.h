@@ -23,8 +23,6 @@ public:
 		FString Description;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString Date;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FString Type;
 	bool IsCurrent;
 
 protected:
@@ -43,19 +41,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		USceneComponent* NodeSceneComponent;
 
-protected:
-	UPaperSprite* govermntSprite;
-	UPaperSprite* peopleSprite;
-	UPaperSprite* placeSprite;
-	UPaperSprite* eventSprite;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void Create(int32 id, int32 total, bool random);
-	void SetDescription(FString description);
-	void SetDate(FString date);
-	void SetType(FString type);
-	
+	void Locate(int32 id, int32 total, bool random);
+	void SetData(FString description, FString date);
 };
 

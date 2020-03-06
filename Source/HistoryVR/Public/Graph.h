@@ -16,15 +16,13 @@ public:
 	// Sets default values for this actor's properties
 	AGraph();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FString AdjacencyList;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString NodesData;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TMap<int32, AGraphNode*> Nodes;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 currentId = 3;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool Random = true;
+		bool IsRandom = true;
 
 protected:
 	// Called when the game starts or when spawned

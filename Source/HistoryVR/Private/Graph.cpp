@@ -3,6 +3,10 @@
 
 #include "Graph.h"
 #include "GraphNode.h"
+#include "GraphNodePerson.h"
+#include "GraphNodeState.h"
+#include "GraphNodeEvent.h"
+#include "GraphNodePlace.h"
 #include "HistoryEdge.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
@@ -22,45 +26,44 @@ AGraph::AGraph()
 void AGraph::BeginPlay()
 {
 	Super::BeginPlay();
-
-	FString directory2 = FPaths::ConvertRelativePathToFull(FPaths::GameContentDir()) + NodesData;
+	
 	TArray<FString> nodesArray;
-	if (FFileHelper::LoadFileToStringArray(nodesArray, *directory2)) {
+	if (FFileHelper::LoadFileToStringArray(nodesArray, *(FPaths::ConvertRelativePathToFull(FPaths::GameContentDir()) +"/Test/Data/" + NodesData))) {
 		int32 k = 0;
 			FString res;
 			FString res1, res2;
 			AGraphNode* node;
 			int32 total = nodesArray.Num() / 2;
 			for (int32 i = 1; i <= total; i++) {
-				node = GetWorld()->SpawnActor<AGraphNode>(FVector(-60.f, 0.f, 120.f), FRotator(0.f, 0.f, 0.f));
 				nodesArray[k].Split(":", &res1, &res2);
-				node->SetDescription(res2);
-				node->SetDate(nodesArray[k + 1]);
-				node->SetType(res1);				
-				node->Create(i, total, Random);
+				if (res1 == "person") node = GetWorld()->SpawnActor<AGraphNodePerson>(FVector(-60.f, 0.f, 120.f), FRotator(0.f, 0.f, 0.f));
+				else if (res1 == "state") node = GetWorld()->SpawnActor<AGraphNodeState>(FVector(-60.f, 0.f, 120.f), FRotator(0.f, 0.f, 0.f));
+				else if (res1 == "event") node = GetWorld()->SpawnActor<AGraphNodeEvent>(FVector(-60.f, 0.f, 120.f), FRotator(0.f, 0.f, 0.f));
+				else if (res1 == "place") node = GetWorld()->SpawnActor<AGraphNodePlace>(FVector(-60.f, 0.f, 120.f), FRotator(0.f, 0.f, 0.f));
+				else node = GetWorld()->SpawnActor<AGraphNode>(FVector(-60.f, 0.f, 120.f), FRotator(0.f, 0.f, 0.f));
+				node->SetData(res2, nodesArray[k + 1]);
+				node->Locate(i, total, IsRandom);
 				Nodes.Add(i, node);
 				k = k + 2;
 			}
 	}
 	else UKismetSystemLibrary::PrintString(this, "File Not Found", true, true, FLinearColor(0, 0, 0, 1), 100.f);
 
-	//FString directory = FPaths::ConvertRelativePathToFull(FPaths::GameContentDir()) + AdjacencyList;
-	//TArray<FString> adjacencyArray;
-	//if (FFileHelper::LoadFileToStringArray(adjacencyArray, *directory)) {
-	//	//FString IntAsString = FString::FromInt();
-	//	//UKismetSystemLibrary::PrintString(this, "Nodes and Edges: " + result[0], true, true, FLinearColor(0, 0, 0, 1), 100.f);
-	//	FString res;
-	//	FString res1, res2;
-	//	for (int32 i = 1; i < adjacencyArray.Num(); i++) {
-	//		res = adjacencyArray[i];
-	//		res.Split(" ", &res1, &res2);
-	//		//UKismetSystemLibrary::PrintString(this, res1 + " " + res2, true, true, FLinearColor(0, 0, 0, 1), 100.f);
-	//		int32 nodeA_id = FCString::Atoi(*res1);
-	//		int32 nodeB_id = FCString::Atoi(*res2);
-	//		CreateRelation(nodeA_id, nodeB_id);
-	//	}
-	//}
-	//else UKismetSystemLibrary::PrintString(this, "File Not Found", true, true, FLinearColor(0, 0, 0, 1), 100.f);
+	TArray<FString> adjacencyArray;
+	if (FFileHelper::LoadFileToStringArray(adjacencyArray, *(FPaths::ConvertRelativePathToFull(FPaths::GameContentDir()) + "/Test/" + NodesData))) {
+		//FString IntAsString = FString::FromInt();
+		//UKismetSystemLibrary::PrintString(this, "Nodes and Edges: " + result[0], true, true, FLinearColor(0, 0, 0, 1), 100.f);
+		FString res;
+		FString res1, res2;
+		for (int32 i = 1; i < adjacencyArray.Num(); i++) {
+			res = adjacencyArray[i];
+			res.Split(" ", &res1, &res2);
+			int32 nodeA_id = FCString::Atoi(*res1);
+			int32 nodeB_id = FCString::Atoi(*res2);
+			CreateRelation(nodeA_id, nodeB_id);
+		}
+	}
+	else UKismetSystemLibrary::PrintString(this, "File Not Found", true, true, FLinearColor(0, 0, 0, 1), 100.f);
 }
 
 void AGraph::CreateRelation(int32 nodeA_id, int32 nodeB_id) {

@@ -6,18 +6,18 @@
 #include "GraphNode.h"
 #include "PaperSpriteComponent.h"
 #include "PaperSprite.h"
-#include "GraphNodePerson.generated.h"
+#include "GraphNodeState.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class HISTORYVR_API AGraphNodePerson : public AGraphNode
+class HISTORYVR_API AGraphNodeState : public AGraphNode
 {
 	GENERATED_BODY()
 public:
-    AGraphNodePerson();
+    AGraphNodeState();
 
 protected:
-    UPaperSprite* personSprite;
+    UPaperSprite* stateSprite;
 };
