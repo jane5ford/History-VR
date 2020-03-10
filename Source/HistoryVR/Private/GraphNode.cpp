@@ -36,12 +36,13 @@ AGraphNode::AGraphNode()
 	P_Sparkles->SetupAttachment(RootComponent);
 	P_Sparkles->SetRelativeScale3D(FVector(0.5f, 0.5f, 0.5f));
 	P_Sparkles->SetTemplate(sparkles.Object);
+	P_Sparkles->SetVisibility(false);
 	SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
 	SpriteComponent->SetupAttachment(RootComponent);
 	SpriteComponent->SetRelativeLocation(FVector(0.f, 0.0f, 5.0f));
 	SpriteComponent->SetWorldScale3D(FVector(0.05f, 0.05f, 0.05f));
 	SpriteComponent->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
-	SpriteComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	//SpriteComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	TextDescription = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Description"));
 	TextDescription->SetupAttachment(RootComponent);
 	TextDescription->SetHorizontalAlignment(EHTA_Center);
@@ -96,7 +97,8 @@ void AGraphNode::Tick(float DeltaTime)
 	float speed = 0.05f;
 	FVector playerLoc = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), playerLoc));
-	if (IsCurrent) { SetActorScale3D(FVector(2.f, 2.f, 2.f)); P_Sparkles->SetVisibility(true);  }
-	else { SetActorScale3D(FVector(1.f, 1.f, 1.f)); P_Sparkles->SetVisibility(false);}
+	//if (IsCurrent) { SetActorScale3D(FVector(2.f, 2.f, 2.f)); P_Sparkles->SetVisibility(true);  }
+	//else { SetActorScale3D(FVector(1.f, 1.f, 1.f)); P_Sparkles->SetVisibility(false);}
 }
+
 
