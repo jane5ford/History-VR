@@ -69,13 +69,18 @@ void AGraphNode::BeginPlay()
 	
 }
 
-void AGraphNode::GenerateLocation()
+FVector AGraphNode::GenerateLocation()
 {
+	float radius = 300;
+	FVector location = FVector(FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius), FMath::FRandRange(-radius, radius));
+	NodeSceneComponent->MoveComponent(location, FRotator(0, 0, 0), false);
+	return location;
 }
 
 void AGraphNode::Locate(int32 nodeId, int32 total, bool random)
 {
 	Id = nodeId;
+	Total = total;
 	int step = 120;
 	FVector location = GetActorLocation();
 	if (random) {

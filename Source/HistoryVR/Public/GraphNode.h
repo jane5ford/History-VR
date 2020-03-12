@@ -26,6 +26,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString Type;
 	bool IsCurrent;
+	int32 Total;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+		USceneComponent* NodeSceneComponent;
 
 protected:
 	virtual void BeginPlay() override;
@@ -40,8 +43,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		UPaperSpriteComponent* SpriteComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
-		USceneComponent* NodeSceneComponent;
+
 
 public:	
 	// Called every frame
@@ -50,8 +52,8 @@ public:
 		void PickNode(UPrimitiveComponent* ClickedComp, FKey ButtonPressed);
 	UFUNCTION() 
 		void PickNodes();
-	UFUNCTION(BlueprintImplementableEvent)
-		void GenerateLocation();
+	UFUNCTION(BlueprintCallable)
+		FVector GenerateLocation();
 		void Locate(int32 nodeId, int32 total, bool random);
 	void SetData(FString description, FString date, FString type);
 	

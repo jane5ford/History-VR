@@ -129,3 +129,11 @@ void AGraph::Tick(float DeltaTime)
 	//}
 }
 
+void AGraph::GenerateLocationForNodes()
+{
+	for (int32 i = 1; i <= Nodes.Num(); i++) {
+		FVector location = Nodes[i]->GenerateLocation();
+	}
+}
+
+
