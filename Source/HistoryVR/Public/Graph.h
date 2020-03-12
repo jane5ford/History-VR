@@ -3,18 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include <HistoryVR\Public\GraphNode.h>
 #include "GameFramework/Actor.h"
+#include "GraphNode.h"
 #include "Graph.generated.h"
 
 UCLASS()
 class HISTORYVR_API AGraph : public AActor
 {
 	GENERATED_BODY()
-	
+
 public:	
 	// Sets default values for this actor's properties
 	AGraph();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+		USceneComponent* NodeSceneComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString NodesData;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -22,15 +24,25 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 currentId = 3;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool IsRandom = true;
+		bool IsRandom;
+	UFUNCTION() AGraphNode* SpawnNode(FString type);
+	UFUNCTION() AActor* SpawnNodeBP(FString type);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	void CreateRelation(int32 nodeA_id, int32 nodeB_id);
+	void SpawnRelation(int32 nodeA_id, int32 nodeB_id);
+	
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+};
 
+UENUM()
+enum NodeType {
+	person UMETA(DisplayName = "person"),
+	event UMETA(DisplayName = "event"),
+	state UMETA(DisplayName = "state"),
+	place UMETA(DisplayName = "place")
 };

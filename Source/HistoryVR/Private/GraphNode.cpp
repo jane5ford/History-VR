@@ -17,6 +17,8 @@
 #include "PaperSprite.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/TextRenderComponent.h"
+#include "Components/InputComponent.h"
+
 
 // Sets default values
 AGraphNode::AGraphNode()
@@ -54,6 +56,9 @@ AGraphNode::AGraphNode()
 	TextDate->SetHorizontalAlignment(EHTA_Center);
 	TextDate->SetRelativeLocation(FVector(5.0f, 0.0f, -20.0f));
 	TextDate->SetWorldSize(6.f);
+	this->AutoReceiveInput = EAutoReceiveInput::Player0;
+	//SpriteComponent->OnClicked.AddDynamic(this, &AGraphNode::PickNode);
+	//InputComponent->BindAction("PickNode", IE_Pressed, this, &AGraphNode::PickNodes);
 }
 
 // Called when the game starts or when spawned
@@ -61,11 +66,16 @@ void AGraphNode::BeginPlay()
 {
 	Super::BeginPlay();
 	P_OrangeEllipse->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));//FMath::VRand()
+	
 }
 
-void AGraphNode::Locate(int32 id, int32 total, bool random)
+void AGraphNode::GenerateLocation()
 {
-	Id = id;
+}
+
+void AGraphNode::Locate(int32 nodeId, int32 total, bool random)
+{
+	Id = nodeId;
 	int step = 120;
 	FVector location = GetActorLocation();
 	if (random) {
@@ -75,19 +85,20 @@ void AGraphNode::Locate(int32 id, int32 total, bool random)
 	else {
 		int32 countInRow = pow(total, 1.0 / 3);
 		int32 x, y, z;
-		x = (id - 1) % countInRow;
-		y = (id - 1) / pow(countInRow, 2); 
-		z = (id - 1 - y * pow(countInRow, 2)) / countInRow;
-		location += FVector( x * step, y * step, z * step);
+		x = (Id - 1) % countInRow;
+		y = (Id - 1) / pow(countInRow, 2);
+		z = (Id - 1 - y * pow(countInRow, 2)) / countInRow;
+		location += FVector( x * step, y * step, z * step) - (countInRow * step) / 2;
 	}
 	SetActorLocation(location);	
 }
 
-void AGraphNode::SetData(FString description, FString date) {
+void AGraphNode::SetData(FString description, FString date, FString type) {
 	Description = description;
 	TextDescription->SetText(Description);
 	Date = date;
 	TextDate->SetText(Date);
+	Type = type;
 }
 
 // Called every frame
@@ -99,6 +110,21 @@ void AGraphNode::Tick(float DeltaTime)
 	SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), playerLoc));
 	//if (IsCurrent) { SetActorScale3D(FVector(2.f, 2.f, 2.f)); P_Sparkles->SetVisibility(true);  }
 	//else { SetActorScale3D(FVector(1.f, 1.f, 1.f)); P_Sparkles->SetVisibility(false);}
+	
+}
+
+
+
+void AGraphNode::PickNode(UPrimitiveComponent* ClickedComp, FKey ButtonPressed)
+{
+	UKismetSystemLibrary::PrintString(this, "Pressed", true, true, FLinearColor(5, 5, 5, 1), 100.f);
+	P_OrangeEllipse->SetWorldScale3D(FVector(1.f, 1.f, 1.f));
+}
+
+void AGraphNode::PickNodes()
+{
+	UKismetSystemLibrary::PrintString(this, "Pressed V", true, true, FLinearColor(5, 5, 5, 1), 100.f);
+	P_OrangeEllipse->SetWorldScale3D(FVector(1.f, 1.f, 1.f));
 }
 
 

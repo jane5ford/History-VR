@@ -23,6 +23,8 @@ public:
 		FString Description;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString Date;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FString Type;
 	bool IsCurrent;
 
 protected:
@@ -44,7 +46,14 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void Locate(int32 id, int32 total, bool random);
-	void SetData(FString description, FString date);
+	UFUNCTION() 
+		void PickNode(UPrimitiveComponent* ClickedComp, FKey ButtonPressed);
+	UFUNCTION() 
+		void PickNodes();
+	UFUNCTION(BlueprintImplementableEvent)
+		void GenerateLocation();
+		void Locate(int32 nodeId, int32 total, bool random);
+	void SetData(FString description, FString date, FString type);
+	
 };
 
