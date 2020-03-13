@@ -64,13 +64,15 @@ void AGraph::BeginPlay()
 			res.Split(" ", &res1, &res2);
 			int32 nodeA_id = FCString::Atoi(*res1);
 			int32 nodeB_id = FCString::Atoi(*res2);
-			SpawnRelation(nodeA_id, nodeB_id);
+			SpawnRelation(i, nodeA_id, nodeB_id);
+			Nodes[nodeA_id]->EdgesID.Add(i);
+			Nodes[nodeB_id]->EdgesID.Add(i);
 		}
 	}
 	else UKismetSystemLibrary::PrintString(this, "File Not Found", true, true, FLinearColor(0, 0, 0, 1), 100.f);
 }
 
-void AGraph::SpawnRelation(int32 nodeA_id, int32 nodeB_id) {
+void AGraph::SpawnRelation(int32 id, int32 nodeA_id, int32 nodeB_id) {
 
 	AGraphNode* nodeA;
 	AGraphNode* nodeB;
@@ -79,6 +81,7 @@ void AGraph::SpawnRelation(int32 nodeA_id, int32 nodeB_id) {
 	AHistoryEdge* edge = GetWorld()->SpawnActor<AHistoryEdge>();
 	edge->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 	edge->Create(nodeA, nodeB);
+	edge->Id = id;
 }
 
 AGraphNode* AGraph::SpawnNode(FString type)

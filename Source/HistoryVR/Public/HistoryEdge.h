@@ -17,7 +17,7 @@ public:
 	// Sets default values for this actor's properties
 	AHistoryEdge();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Edge_Len;
+		int32 Id;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		AGraphNode* NodeA;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

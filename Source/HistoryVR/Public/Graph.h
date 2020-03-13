@@ -31,7 +31,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	void SpawnRelation(int32 nodeA_id, int32 nodeB_id);
+	void SpawnRelation(int32 id, int32 nodeA_id, int32 nodeB_id);
 	
 
 public:	

@@ -25,6 +25,8 @@ public:
 		FString Date;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString Type;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TSet<int32> EdgesID;
 	bool IsCurrent;
 	int32 Total;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
