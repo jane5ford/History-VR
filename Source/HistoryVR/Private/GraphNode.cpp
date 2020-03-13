@@ -105,13 +105,19 @@ void AGraphNode::SetData(FString description, FString date, FString type) {
 	Type = type;
 }
 
+void AGraphNode::RotateToPlayer()
+{
+	if (Rotable) {
+		FVector playerLoc = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() + FVector(0, 0, 180.f);
+		SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), playerLoc));
+	}	
+}
+
 // Called every frame
 void AGraphNode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	float speed = 0.05f;
-	FVector playerLoc = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() + FVector(0,0,180.f);
-	SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), playerLoc));
+	RotateToPlayer();
 }
 
 

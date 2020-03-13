@@ -31,6 +31,8 @@ public:
 	int32 Total;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		USceneComponent* NodeSceneComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool Rotable = true;
 
 protected:
 	virtual void BeginPlay() override;
@@ -44,7 +46,7 @@ protected:
 		UTextRenderComponent* TextDate;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		UPaperSpriteComponent* SpriteComponent;
-
+	void RotateToPlayer();
 
 
 public:	

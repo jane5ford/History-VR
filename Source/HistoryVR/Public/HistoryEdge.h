@@ -22,6 +22,7 @@ public:
 		AGraphNode* NodeA;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		AGraphNode* NodeB;
+	bool Rotable = true;
 
 protected:
 	// Called when the game starts or when spawned

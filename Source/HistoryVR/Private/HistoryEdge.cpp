@@ -41,8 +41,10 @@ void AHistoryEdge::Tick(float DeltaTime)
 	float edge_distance = FVector::Dist(NodeA->GetActorLocation(), NodeB->GetActorLocation()) - 40.f;
 	PS->SetFloatParameter("Lenght", edge_distance);
 	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(NodeB->GetActorLocation(), NodeA->GetActorLocation());
-	this->SetActorLocationAndRotation(NodeB->GetActorLocation()+FVector(0.f,0.f,0.f), rotation);
+	this->SetActorLocationAndRotation(NodeB->GetActorLocation() + FVector(0.f, 0.f, 0.f), rotation);
 }
+
+
 
 void AHistoryEdge::Create(AGraphNode* nodeA, AGraphNode* nodeB) 
 {
