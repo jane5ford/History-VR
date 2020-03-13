@@ -24,6 +24,8 @@ AHistoryEdge::AHistoryEdge()
 	PS->SetRelativeLocation(FVector(20.f, 0.f, 0.f));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem>PSRay(TEXT("ParticleSystem'/Game/Particles/P_Beam_Laser_Ice.P_Beam_Laser_Ice'"));
 	PS->SetTemplate(PSRay.Object);
+	PS->SetVisibility(false);
+
 }
 
 // Called when the game starts or when spawned

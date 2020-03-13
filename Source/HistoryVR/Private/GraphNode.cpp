@@ -110,11 +110,8 @@ void AGraphNode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	float speed = 0.05f;
-	FVector playerLoc = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	FVector playerLoc = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() + FVector(0,0,180.f);
 	SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), playerLoc));
-	//if (IsCurrent) { SetActorScale3D(FVector(2.f, 2.f, 2.f)); P_Sparkles->SetVisibility(true);  }
-	//else { SetActorScale3D(FVector(1.f, 1.f, 1.f)); P_Sparkles->SetVisibility(false);}
-	
 }
 
 

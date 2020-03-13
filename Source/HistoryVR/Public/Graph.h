@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GraphNode.h"
+#include "HistoryEdge.h"
 #include "Graph.generated.h"
 
 UCLASS()
@@ -22,16 +23,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TMap<int32, AGraphNode*> Nodes;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TMap<int32, AHistoryEdge*> Edges;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 currentId = 3;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool IsRandom;
 	UFUNCTION() AGraphNode* SpawnNode(FString type);
 	UFUNCTION() AActor* SpawnNodeBP(FString type);
+	UFUNCTION() AHistoryEdge* SpawnRelation(int32 id, int32 nodeA_id, int32 nodeB_id);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	void SpawnRelation(int32 id, int32 nodeA_id, int32 nodeB_id);
 	
 
 public:	

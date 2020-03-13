@@ -9,6 +9,7 @@
 #include "PaperSprite.h"
 #include "GraphNode.generated.h"
 
+
 UCLASS()
 class HISTORYVR_API AGraphNode : public AActor
 {
@@ -26,8 +27,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString Type;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TSet<int32> EdgesID;
-	bool IsCurrent;
+		TSet<int32> EdgeIds;
 	int32 Total;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 		USceneComponent* NodeSceneComponent;

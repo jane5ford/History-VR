@@ -59,20 +59,22 @@ void AGraph::BeginPlay()
 		//UKismetSystemLibrary::PrintString(this, "Nodes and Edges: " + result[0], true, true, FLinearColor(0, 0, 0, 1), 100.f);
 		FString res;
 		FString res1, res2;
+		AHistoryEdge* edge;
 		for (int32 i = 1; i < adjacencyArray.Num(); i++) {
 			res = adjacencyArray[i];
 			res.Split(" ", &res1, &res2);
 			int32 nodeA_id = FCString::Atoi(*res1);
 			int32 nodeB_id = FCString::Atoi(*res2);
-			SpawnRelation(i, nodeA_id, nodeB_id);
-			Nodes[nodeA_id]->EdgesID.Add(i);
-			Nodes[nodeB_id]->EdgesID.Add(i);
+			edge = SpawnRelation(i, nodeA_id, nodeB_id);
+			Edges.Add(i, edge);
+			Nodes[nodeA_id]->EdgeIds.Add(i);
+			Nodes[nodeB_id]->EdgeIds.Add(i);
 		}
 	}
 	else UKismetSystemLibrary::PrintString(this, "File Not Found", true, true, FLinearColor(0, 0, 0, 1), 100.f);
 }
 
-void AGraph::SpawnRelation(int32 id, int32 nodeA_id, int32 nodeB_id) {
+UFUNCTION() AHistoryEdge* AGraph::SpawnRelation(int32 id, int32 nodeA_id, int32 nodeB_id) {
 
 	AGraphNode* nodeA;
 	AGraphNode* nodeB;
@@ -82,6 +84,7 @@ void AGraph::SpawnRelation(int32 id, int32 nodeA_id, int32 nodeB_id) {
 	edge->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 	edge->Create(nodeA, nodeB);
 	edge->Id = id;
+	return edge;
 }
 
 AGraphNode* AGraph::SpawnNode(FString type)
@@ -127,9 +130,6 @@ UFUNCTION()AActor* AGraph::SpawnNodeBP(FString type)
 void AGraph::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//for (int32 i = 1; i <= Nodes.Num(); i++) {
-	//	if (i == currentId) Nodes[i]->IsCurrent = true; else Nodes[i]->IsCurrent = false;
-	//}
 }
 
 void AGraph::GenerateLocationForNodes()
