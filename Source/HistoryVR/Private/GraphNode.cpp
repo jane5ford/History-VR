@@ -108,7 +108,7 @@ void AGraphNode::SetData(FString description, FString date, FString type) {
 void AGraphNode::RotateToPlayer()
 {
 	if (Rotable) {
-		FVector playerLoc = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() + FVector(0, 0, 180.f);
+		FVector playerLoc = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 		SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), playerLoc));
 	}	
 }
