@@ -18,6 +18,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/TextRenderComponent.h"
 #include "Components/InputComponent.h"
+#include "Components/ActorComponent.h"
 
 
 // Sets default values
@@ -26,34 +27,32 @@ AGraphNode::AGraphNode()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	NodeSceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("NodeScene"));
-	NodeSceneComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+	NodeSceneComponent->bEditableWhenInherited = true;
 	RootComponent = NodeSceneComponent;
 	static ConstructorHelpers::FObjectFinder<UParticleSystem>orange(TEXT("ParticleSystem'/Game/Particles/P_OrangeEllipse.P_OrangeEllipse'"));
 	P_OrangeEllipse = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleSystem"));
 	P_OrangeEllipse->SetupAttachment(RootComponent);
-	P_OrangeEllipse->SetRelativeLocation(FVector(10.0f, 0.0f, 0.0f));
+	P_OrangeEllipse->bEditableWhenInherited = true;
 	P_OrangeEllipse->SetTemplate(orange.Object);
 	static ConstructorHelpers::FObjectFinder<UParticleSystem>sparkles(TEXT("ParticleSystem'/Game/Particles/P_Sparkles.P_Sparkles'"));
 	P_Sparkles = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleSystem2"));
+	P_Sparkles->bEditableWhenInherited = true;
 	P_Sparkles->SetupAttachment(RootComponent);
 	P_Sparkles->SetTemplate(sparkles.Object);
 	P_Sparkles->SetVisibility(false);
 	SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
 	SpriteComponent->SetupAttachment(RootComponent);
-	SpriteComponent->SetRelativeLocation(FVector(0.f, 0.0f, 5.0f));
 	SpriteComponent->SetWorldScale3D(FVector(0.05f, 0.05f, 0.05f));
-	SpriteComponent->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
-	//SpriteComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	TextDescription = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Description"));
 	TextDescription->SetupAttachment(RootComponent);
+	TextDescription->bEditableWhenInherited = true;
 	TextDescription->SetHorizontalAlignment(EHTA_Center);
-	//TextDescription->SetRelativeLocation(FVector(5.0f, 0.0f, -18.0f));
 	TextDescription->SetWorldSize(8.f);
 	TextDescription->SetTextRenderColor(FColor(255, 174, 0, 255));
 	TextDate = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Date"));
 	TextDate->SetupAttachment(RootComponent);
+	TextDate->bEditableWhenInherited = true;
 	TextDate->SetHorizontalAlignment(EHTA_Center);
-	TextDate->SetRelativeLocation(FVector(5.0f, 0.0f, -23.0f));
 	TextDate->SetWorldSize(6.f);
 	this->AutoReceiveInput = EAutoReceiveInput::Player0;
 	//SpriteComponent->OnClicked.AddDynamic(this, &AGraphNode::PickNode);
