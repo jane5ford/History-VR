@@ -25,10 +25,23 @@
 		{
 			"Name": "SimpleHMD",
 			"Enabled": true
+		},
+		{
+			"Name": "GoogleVRHMD",
+			"Enabled": true
+		},
+		{
+			"Name": "OpenXR",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win32",
+				"Win64"
+			]
 		}
 	],
 	"TargetPlatforms": [
 		"PS4",
-		"WindowsNoEditor"
+		"WindowsNoEditor",
+		"Android"
 	]
 }
